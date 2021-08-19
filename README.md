@@ -1,4 +1,4 @@
-# vertx-structured--boost
+# vertx-structured-boost
 
 vertx simple boost with some structure 
 
