@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  description: Accounts management
+  version: 1.0.0-oas3
+  title: Accounts management
+  contact:
+    email: gutmox@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /accounts:
+    post:
+      tags:
+        - accounts
+      summary: Create account
+      description: This can only be done by the logged in user.
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        description: Account Created
+        required: true
+      responses:
+        default:
+          description: successful operation
+    get:
+      tags:
+        - accounts
+      summary: Get all the accounts
+      description: ''
+      operationId: getAccounts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+        '400':
+          description: Invalid account id supplied
+        '404':
+          description: Account not found
+  /accounts/{accountIdentifier}:
+    get:
+      tags:
+        - accounts
+      summary: Get account by identifier
+      description: ''
+      operationId: getAccountById
+      parameters:
+        - name: accountIdentifier
+          in: path
+          description: The account id that needs to be fetched.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Invalid account id supplied
+        '404':
+          description: Account not found
+    delete:
+      tags:
+        - accounts
+      summary: Delete account
+      description: This can only be done by the logged in user.
+      operationId: deleteAccount
+      parameters:
+        - name: accountIdentifier
+          in: path
+          description: The id that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid account id supplied
+        '404':
+          description: Account not found
+servers:
+  - url: https://virtserver.swaggerhub.com
+  - url: http://virtserver.swaggerhub.com
+components:
+  schemas:
+    Accounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Account'
+    Account:
+      type: object
+      properties:
+        number:
+          type: string

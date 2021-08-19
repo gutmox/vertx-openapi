@@ -19,6 +19,7 @@ dependencies {
     compile "io.vertx:vertx-core:$vertxVersion"
     compile "io.vertx:vertx-rx-java2:$vertxVersion"
     compile "io.vertx:vertx-web:$vertxVersion"
+    compile "io.vertx:vertx-web-api-contract:$vertxVersion"
     compile "io.vertx:vertx-web-client:${vertxVersion}"
     compile "javax.xml.soap:javax.xml.soap-api:1.4.0"
     compile "javax.xml.bind:jaxb-api:2.3.1"

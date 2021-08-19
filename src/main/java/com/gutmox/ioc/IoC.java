@@ -1,5 +1,6 @@
 package com.gutmox.ioc;
 
+import com.gutmox.handlers.AccountsHandler;
 import com.gutmox.handlers.HealthHandler;
 import com.gutmox.handlers.HelloHandler;
 import com.gutmox.router.Routing;
@@ -9,6 +10,7 @@ public class IoC {
     private final Routing routing;
     private final HelloHandler helloHandler;
     private final HealthHandler healthCheck;
+    private final AccountsHandler accountsHandler;
     private static IoC instance = null;
 
     public static synchronized IoC getInstance() {
@@ -22,6 +24,7 @@ public class IoC {
         routing = new Routing();
         healthCheck = new HealthHandler();
         helloHandler = new HelloHandler();
+        accountsHandler = new AccountsHandler();
     }
 
     public Routing getRouting() {
@@ -34,5 +37,9 @@ public class IoC {
 
     public HealthHandler getHealthCheck() {
         return healthCheck;
+    }
+
+    public AccountsHandler getAccountsHandler() {
+        return accountsHandler;
     }
 }
