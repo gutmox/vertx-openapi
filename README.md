@@ -1,6 +1,6 @@
-# vertx-structured-boost
+# vertx-openapi
 
-vertx simple boost with some structure 
+vertx simple boost integrated with an openapi yaml definition  
 
 ## Building and running using Bazel
 
