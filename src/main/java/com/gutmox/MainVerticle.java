@@ -1,5 +1,7 @@
 package com.gutmox;
 
+import com.gutmox.ioc.IoC;
+import com.gutmox.router.Routing;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.vertx.core.json.JsonObject;
@@ -14,10 +16,6 @@ import java.util.Arrays;
 
 public class MainVerticle extends AbstractVerticle {
 
-	private static final String HEALTH_CHECK = "/health";
-	private static final String HELLO = "/hello";
-	private static final String ROOT = "/";
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainVerticle.class.getName());
 	private final String HOST = "0.0.0.0";
 	private final Integer PORT = 8080;
@@ -28,33 +26,14 @@ public class MainVerticle extends AbstractVerticle {
 			error.getMessage() + error.getCause() + Arrays.toString(error.getStackTrace()) + error
 				.getLocalizedMessage()));
 
-		return createRouter().flatMap(router -> startHttpServer(HOST, PORT, router))
+		return IoC.getInstance().getRouting().createRouter().flatMap(this::startHttpServer)
 			.flatMapCompletable(httpServer -> {
 				LOGGER.info("HTTP server started on http://{0}:{1}", HOST, PORT.toString());
 				return Completable.complete();
 			});
 	}
 
-	private Single<Router> createRouter() {
-		Router router = Router.router(vertx);
-		router.post().handler(BodyHandler.create());
-		router.get(HEALTH_CHECK).handler(this::healthCheck);
-		router.get(HELLO).handler(this::hello);
-		router.get(ROOT).handler(this::hello);
-		return Single.just(router);
-	}
-
-	private void hello(RoutingContext context) {
-		context.response().putHeader("content-type", "application/json")
-			.end(new JsonObject().put("hello", "world").encode());
-	}
-
-	private void healthCheck(RoutingContext context) {
-		context.response().putHeader("content-type", "application/json")
-			.end(new JsonObject().put("status", "Show must go on").encode());
-	}
-
-	private Single<HttpServer> startHttpServer(String httpHost, Integer httpPort, Router router) {
-		return vertx.createHttpServer().requestHandler(router).rxListen(httpPort, httpHost);
+	private Single<HttpServer> startHttpServer(Router router) {
+		return vertx.createHttpServer().requestHandler(router).rxListen(PORT, HOST);
 	}
 }
