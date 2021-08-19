@@ -1,6 +1,6 @@
-# vertx-boost
+# vertx-structured--boost
 
-vertx simple boost 
+vertx simple boost with some structure 
 
 ## Building and running using Bazel
 
